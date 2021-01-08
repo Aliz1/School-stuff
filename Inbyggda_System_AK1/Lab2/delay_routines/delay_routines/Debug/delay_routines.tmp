@@ -1,0 +1,34 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega32U4"</DEVICE>
+ <WORKING_DIR>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>D:/AtmelStudio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
+  <DIR>D:\AtmelStudio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay_routines.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>D:/AtmelStudio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m32U4def.inc</FILE>
+  <FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\Debug\delay_routines.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>delay_routines.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>delay_routines.map</FILE>
+  <FILE>delay_routines.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <init><FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay_routines.asm</FILE><LINE>38</LINE></init>
+  <delay_1_micros><FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay.inc</FILE><LINE>12</LINE></delay_1_micros>
+  <delay_micros><FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay.inc</FILE><LINE>33</LINE></delay_micros>
+  <delay_ms><FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay.inc</FILE><LINE>50</LINE></delay_ms>
+  <loop_dms><FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay.inc</FILE><LINE>52</LINE></loop_dms>
+  <init_pins><FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay_routines.asm</FILE><LINE>52</LINE></init_pins>
+  <main><FILE>C:\Users\Hamodii\Desktop\School_stuff\Inbyggda_System_AK1\Lab2\delay_routines\delay_routines\delay_routines.asm</FILE><LINE>60</LINE></main>
+ </LABELS>
+</ASSEMBLER_INFO>
