@@ -1,0 +1,51 @@
+#include<esp_task_wdt.h>
+#include<driver/GPIO.h>
+#include<driver/dac.h>
+#include <soundgen.h>
+#include "soc/sens_reg.h"
+
+#include <soc/syscon_reg.h>
+#include "soc/rtc_io_reg.h"
+#include "soc/rtc_cntl_reg.h"
+#include "soc/sens_reg.h"
+#include "soc/rtc.h"
+
+
+
+int clk_8m_div = 0;      // RTC 8M clock divider (division is by clk_8m_div+1, i.e. 0 means 8MHz frequency)
+
+int scale = 1;           // 50% of the full scale
+int offset;              // leave it default / 0 = no any offset
+int invert = 2;          // invert MSB to get sine waveform
+
+int startSound(int freq){
+int frequency_step = freq/125.6;  // Frequency step for CW generator
+
+//Enabling the CW generator
+REG_WRITE(SENS_SAR_DAC_CTRL1_REG, SENS_SW_TONE_EN);
+
+//Connects the generator to DAC channel 1 or 2 depends on what we are using.
+REG_SET_BIT(SENS_SAR_DAC_CTRL2_REG,SENS_DAC_CW_EN1 );
+
+//Sets the generator's frequency
+REG_SET_FIELD(RTC_CNTL_CLK_CONF_REG, RTC_CNTL_CK8M_DIV_SEL, clk_8m_div);
+SET_PERI_REG_BITS(SENS_SAR_DAC_CTRL1_REG, SENS_SW_FSTEP, frequency_step, SENS_SW_FSTEP_S);
+
+
+
+//inverts MSB
+SET_PERI_REG_BITS(SENS_SAR_DAC_CTRL2_REG, SENS_DAC_INV1, 2, SENS_DAC_INV1_S);
+
+//sets scale 1 and dc1 to 0
+SET_PERI_REG_BITS(SENS_SAR_DAC_CTRL2_REG, SENS_DAC_SCALE1, scale, SENS_DAC_SCALE1_S);
+//enables pin 25
+dac_output_enable(DAC_CHANNEL_1);
+
+
+return freq;
+}
+
+void stopSound(){
+    //disables pin 25
+    dac_output_disable(DAC_CHANNEL_1);
+}

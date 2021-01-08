@@ -1,0 +1,99 @@
+#include <stdlib.h>
+
+#include <stdio.h>
+
+#include <limits.h>
+
+#include "single_linked_list.h"
+
+int addElementSingleLinkedList(list_t * list, int value) {
+	node_t * newElement = (node_t * ) malloc(sizeof(node_t));
+	node_t *curr = (node_t*) malloc(sizeof(node_t));
+
+	while (newElement == NULL) {
+		printf("No memory allocated.");
+		return INT_MIN;
+	}
+	
+	 if (newElement!=NULL) {
+
+		newElement->data = value;
+		curr->data = newElement->data;
+		printf("Curr value: %d\n\n", newElement->data);
+		
+	 }
+	 //Start/head = list.first
+	 while (list->first == NULL) {
+			newElement->next = list->first;    
+			list->first= newElement; //start = ny start position 
+			
+		}
+
+		while (curr->data > newElement->data) {
+			curr = list->first;
+			curr = curr->next;
+		} 
+		
+		if (newElement->data < list->first->data) {
+			newElement->data = value;
+			newElement->next = list->first;
+			list->first = newElement;
+			curr->data = newElement->data;
+			printf("New first number in list: %d\n", newElement->data);
+		}
+		
+		return value;
+	}
+	
+	
+
+void initSingleLinkedList(struct singleLinkedList * list) {
+	list->first = NULL;
+}
+
+int removeFirstElementSingleLinkedList(struct singleLinkedList * list) {
+	if (list->first == NULL)
+	{
+		return INT_MIN;
+	}
+	list->first = list->first->next;
+
+	return list->first->data;
+}
+
+int removeLastElementSingleLinkedList(struct singleLinkedList * list) {
+	node_t *toDelete, *secondLastNode;
+	if (list->first == NULL)
+
+	{
+		return INT_MIN;
+	}
+	else
+	{
+		secondLastNode = list->first;
+		toDelete  = list->first;
+
+		while (toDelete->next !=NULL)
+		{
+			secondLastNode = toDelete;
+			toDelete = toDelete->next;
+		}
+		if (toDelete == list->first)
+		{
+			list->first = NULL;
+		}
+		else
+		{
+			secondLastNode->next = NULL;
+		}
+		printf("The curr last node is: %d\n", toDelete->data);
+		free(toDelete);
+		printf("Successfully deleted last node.\n");
+		return secondLastNode->data;
+		
+		
+	}
+	
+	
+
+}

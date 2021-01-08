@@ -1,0 +1,84 @@
+#include <driver/adc.h>
+#include "sampler.h"
+#include <stdio.h>
+#include <esp_task_wdt.h>
+#include <driver/timer.h>
+
+volatile esp_err_t result = 0;
+
+void IRAM_ATTR timerISR()
+	{
+
+ 		uint32_t is_t0 = TIMERG0.int_st_timers.t0;
+         
+ 		
+         if (is_t0)
+ 		{
+ 			TIMERG0.int_clr_timers.t0 = 1;
+
+		//Turns on the adc
+        adc_power_on();
+
+        //initializes the SAR ADC 1 on GPIO32 for the ESP32
+        adc_gpio_init(ADC_UNIT_1, ADC1_CHANNEL_4);
+
+        //Configures the capture width of ADC1 to 12 bits value: 4095
+        adc1_config_width(ADC_WIDTH_BIT_12);
+
+        /*Configures the channel Attenuation level to 11dB which gives it a full-scale voltage of 3.9V which is limited by the VDD_A 
+        3.3V in our case. Best results between 150 to 2450 mV*/
+        adc1_config_channel_atten( ADC_CHANNEL_4, ADC_ATTEN_DB_11);
+
+
+ 		/* Re-enable the alarm:
+ 		After the alarm has been triggered we need enable it again,
+ 		so it is triggered the next time.
+ 						*/
+ 		TIMERG0.hw_timer[0].config.alarm_en = TIMER_ALARM_EN;
+
+         result = gpio_pullup_en(32);
+
+         }
+    }
+
+void startSampling(int freq)
+{
+
+        timerISR();
+
+         timer_config_t timerConfig;
+         // Reset the timer when the counter is reached.
+         timerConfig.auto_reload = TIMER_AUTORELOAD_EN;
+         // Enable the alarm
+         timerConfig.alarm_en = TIMER_ALARM_EN;
+         // Stop the alarm
+         timerConfig.alarm_en = TIMER_PAUSE;
+         // Timer counts up
+         timerConfig.counter_dir = TIMER_COUNT_UP;
+         // Divisor of the clock with 80MHz 
+         timerConfig.divider = 4000; //Expected frequency = 20KHz
+
+        // set the initial value of the counter to 0
+        timer_init(TIMER_GROUP_0, TIMER_0, &timerConfig);
+        // using a counter of 20000, the alarm should be raised at 1 Hz
+        timer_set_alarm_value(TIMER_GROUP_0, TIMER_0, 2000);
+        // enable interrupts
+        timer_enable_intr(TIMER_GROUP_0, TIMER_0);
+        // register the ISR
+        timer_isr_register(TIMER_GROUP_0, TIMER_0, timerISR, NULL, ESP_INTR_FLAG_IRAM, NULL);
+            
+        timer_start(TIMER_GROUP_0, TIMER_0);
+        
+        if (result == ESP_OK)
+        {
+            
+                int val = adc1_get_raw(ADC1_CHANNEL_4);
+                printf("The value of adcgetRaw = %d\n", val);   
+            
+            
+        }
+        
+        
+            
+            
+    }
