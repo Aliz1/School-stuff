@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Laboration2",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"tuple": "c"
+		}
+	}
+}
