@@ -19,4 +19,8 @@ public class Nodes
     {
         numOfNodes++;
     }
+    public void ResetNodes()
+    {
+        numOfNodes = 0;
+    }
 }

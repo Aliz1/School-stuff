@@ -35,6 +35,10 @@ public class Controller
     {
         nodes.IncreaseNodes();
     }
+    public void resetNodes()
+    {
+        nodes.ResetNodes();
+    }
 
     public void startServer() throws IOException
     {

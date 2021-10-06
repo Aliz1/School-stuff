@@ -37,7 +37,8 @@ public class MainPanel extends JPanel
         return centerPanel;
     }
 
-    public PanelNorth getPanelNorth() {
+    public PanelNorth getPanelNorth()
+     {
         return panelNorth;
     }
 }

@@ -5,7 +5,6 @@ import Controller.Controller;
 
 import javax.swing.*;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -78,14 +77,14 @@ public class WhacAServer extends Thread implements Serializable {
     class ClientHandler extends Thread {
         private BufferedReader bufferedReader;
         private BufferedWriter bufferedWriter;
-        private Socket socket;
+        private Socket Socket;
 
         ClientHandler(Socket socket) throws IOException {
-            this.socket = socket;
+            this.Socket = socket;
 
 
-            bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            bufferedReader = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(Socket.getOutputStream()));
 
             start();
         }
