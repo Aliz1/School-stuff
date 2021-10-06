@@ -1,7 +1,6 @@
 package View;
 
 import Controller.Controller;
-import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;
