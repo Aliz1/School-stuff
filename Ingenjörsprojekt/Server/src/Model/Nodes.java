@@ -5,22 +5,20 @@ import Controller.Controller;
 public class Nodes
 {
     Controller controller;
-    private int numOfNodes = 0;
-    public Nodes(Controller controller)
+
+    private String id = "";
+
+    public Nodes(String ID)
     {
-        this.controller = controller;
+        this.id = ID;
     }
 
-    public int getNumOfNodes()
-    {
-        return numOfNodes;
+    public String getId() {
+        return id;
     }
-    public void IncreaseNodes()
+    public String setID(String ID)
     {
-        numOfNodes++;
-    }
-    public void ResetNodes()
-    {
-        numOfNodes = 0;
+        this.id = ID;
+        return id;
     }
 }

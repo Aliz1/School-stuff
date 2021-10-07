@@ -75,7 +75,6 @@ public class PanelNorth extends JPanel implements ActionListener
         if (e.getSource() == stopButton)
         {
             controller.stopServer();
-            controller.resetNodes();
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
         }

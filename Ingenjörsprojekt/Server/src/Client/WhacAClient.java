@@ -13,8 +13,8 @@ import java.io.*;
  */
 public class WhacAClient {
     Controller controller;
-    String hostname = "127.0.0.1";
-    int port = 13;
+    String hostname = "192.168.43.214";
+    int port = 40000;
     BufferedWriter writer;
     Socket clientHandler;
     public WhacAClient(Controller controller)
@@ -25,12 +25,12 @@ public class WhacAClient {
 
     public void setupClient()
     {
-        String hostname = "127.0.0.1";
-        int port = 13;
+      //  String hostname = "127.0.0.1";
+       // int port = 13;
 
         
-        try  {
-            clientHandler = new Socket(hostname,port);
+        try (Socket clientsSocket = new Socket(hostname,port);) {
+            
 
             
             
