@@ -1,18 +1,24 @@
 package Server;
 
 import Controller.Controller;
-
+import Model.Nodes;
+import Model.Message;
 
 import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 
 public class WhacAServer extends Thread implements Serializable {
     Controller contoller;
     ServerSocket serverSocket;
-
+    BufferedReader bufferedReader;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
+    private HashMap<Nodes, ClientHandler> map = new HashMap<>();
+    boolean done = false;
     public WhacAServer(Controller controller){
         this.contoller = controller;
         try
@@ -32,6 +38,8 @@ public class WhacAServer extends Thread implements Serializable {
         {
             serverSocket.close();
             contoller.replaceArea("Server closed");
+            bufferedReader.close();
+            
         }
         catch (IOException e)
         {
@@ -42,6 +50,7 @@ public class WhacAServer extends Thread implements Serializable {
 
     class StartServer extends Thread {
         private int port;
+        Nodes node;
 
         StartServer(int port) {
             this.port = port;
@@ -53,15 +62,22 @@ public class WhacAServer extends Thread implements Serializable {
             {
                 Socket socket;
                 serverSocket = new ServerSocket(port);
+                
                 contoller.replaceArea("Server Started");
 
                 while (true)
                 {
                     socket = serverSocket.accept();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
                     String who = bufferedReader.readLine();
+
                     contoller.increaseNodes();
                     contoller.appendArea("IP: " + socket.getInetAddress() + " Number of nodes: " + contoller.getNumOfNodes());
+
+                    ClientHandler ch = new ClientHandler(socket, node);
+                    map.putIfAbsent(node, ch);
+                    contoller.appendArea(Integer.toString(map.size()));
 
                     //ClientHandler clientHandler = new ClientHandler(socket);
                 }
@@ -78,9 +94,11 @@ public class WhacAServer extends Thread implements Serializable {
         private BufferedReader bufferedReader;
         private BufferedWriter bufferedWriter;
         private Socket Socket;
+        private Nodes Nodes;
 
-        ClientHandler(Socket socket) throws IOException {
+        ClientHandler(Socket socket, Nodes nodes) throws IOException {
             this.Socket = socket;
+            this.Nodes = nodes;
 
 
             bufferedReader = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
@@ -96,8 +114,15 @@ public class WhacAServer extends Thread implements Serializable {
                 try
                 {
                     String message = bufferedReader.readLine();
-                    //String[] split = message.split(" ");
-
+                    contoller.appendArea(message);
+                    if(message!= null)
+                    {
+                        String[] split = message.split(" ");
+                        Message msg = new Message(split[0], Nodes);
+                        sendMessage(msg);
+                    }
+                    
+                    
                 }
 
                 catch (Exception e)
@@ -107,12 +132,10 @@ public class WhacAServer extends Thread implements Serializable {
             }
 
         }
-        public void sendMessage() throws IOException
-        {
-            bufferedWriter.write("something");
+        public void sendMessage(Message msg) throws IOException {
+            bufferedWriter.write(msg.getInfo());
             bufferedWriter.flush();
-            System.out.println("Something");
-
+            System.out.println(msg.getInfo());
         }
     }
 }

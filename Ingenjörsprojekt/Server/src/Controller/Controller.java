@@ -1,18 +1,19 @@
 package Controller;
 
-import Client.Client;
+import Client.WhacAClient;
 import Model.Nodes;
 import Server.WhacAServer;
 import View.MainFrame;
 
 import java.io.IOException;
+import java.net.Socket;
 
 public class Controller
 {
     MainFrame view;
     Nodes nodes;
     WhacAServer server;
-    Client client;
+    WhacAClient client;
     public Controller() throws IOException {
         view = new MainFrame(this);
         nodes = new Nodes(this);
@@ -50,6 +51,11 @@ public class Controller
     }
     public void startClient()
     {
-        client = new Client(this);
+        client = new WhacAClient(this);
+    }
+
+    public void sendMessageToServer(String msg) throws IOException
+    {
+      client.sendMessageToServer(msg);
     }
 }
