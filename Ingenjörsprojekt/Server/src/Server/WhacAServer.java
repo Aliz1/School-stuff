@@ -8,22 +8,58 @@ import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 
 public class WhacAServer extends Thread implements Serializable {
     Controller controller;
+
+    private LinkedList<String> IDs = new LinkedList<String>();
+
+    private LinkedList<ClientHandler> clients = new LinkedList<ClientHandler>();
+    ListIterator<ClientHandler> iterator; 
+
 
     ServerSocket serverSocket;
 
     ObjectOutputStream oos;
     ObjectInputStream ois;
 
+    Socket socket;
+
+    ClientHandler ch;
+
     private HashMap<Nodes, ClientHandler> map = new HashMap<>();
-    private ArrayList<Nodes> clientList;
+    private LinkedList<Nodes> clientList;
 
     Nodes node;
+
+    public void ControllerBroadcast()
+    {
+        
+           
+            broadcast("Hello Per I am sending from button!");
+       
+        
+    }
+
+    public void broadcast(String message)
+    {
+            
+      iterator = clients.listIterator();
+            ClientHandler currentNode;
+            while(iterator.hasNext())
+            {
+                currentNode = iterator.next();
+                currentNode.outputStream.write(message);
+                currentNode.outputStream.flush();
+            }
+            //  currentNode = clients.element();
+            //System.out.println(message);
+            
+    }
 
     public WhacAServer(Controller controller){
         this.controller = controller;
@@ -66,14 +102,14 @@ public class WhacAServer extends Thread implements Serializable {
         StartServer(int port)
         {
             this.port = port;
-            clientList = new ArrayList<Nodes>();
+            clientList = new LinkedList<Nodes>();
         }
 
         @Override
         public void run() {
             try
             {
-                Socket socket;
+                
                 serverSocket = new ServerSocket(port);
                 
                 controller.replaceArea("Server Started");
@@ -83,33 +119,29 @@ public class WhacAServer extends Thread implements Serializable {
                     socket = serverSocket.accept();
                    
                     System.out.println("Client connected");
-                    node = new Nodes("Node");
-                    clientList.add(node);
-                    System.out.println(clientList.size());
+                    //node = new Nodes("Node");
+                    //clientList.add(node);
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                    out.println("Hello Client");
-                   String who = bufferedReader.readLine();
-                    controller.appendArea(who);
-                    //System.out.println(who.toString());
-                 // ClientHandler ch = ClientHandler(socket, node);
-                // String[] split = who.split(" ");
                     
 
                     
                     
                      
-                   // clientList.add(node);
+                    
                     //System.out.println(clientList.contains(node));
-                    //ClientHandler ch = new ClientHandler(socket, node);
+                     ch = new ClientHandler(socket);
                     //map.putIfAbsent(node, ch);
                     //controller.appendArea(Integer.toString(map.size()));
                     
                     //System.out.println("IP :" + socket.getInetAddress() + " Sensortype: " + node.getClass().getSimpleName() + " Number of nodes: " + map.size() + " NodeID: " + node.setID(Integer.toString(map.size())));
                     //controller.appendArea("IP: " + socket.getInetAddress() + " Number of nodes: " + map.size());
 
-                    //ClientHandler clientHandler = new ClientHandler(socket);
+                    //ControllerBroadcast();
+
+                    //clientHandler.broadcast("hej");
                 }
+                
 
             }
 
@@ -119,57 +151,68 @@ public class WhacAServer extends Thread implements Serializable {
             }
 
         }
+       
     }
-    class ClientHandler extends Thread 
+
+    public class ClientHandler extends Thread 
     {
-        private BufferedReader bufferedReader;
-        private BufferedWriter bufferedWriter;
-        private Socket Socket;
-        private Nodes Nodes;
+        //Uses a list of strings for currently used ID's to keep them  unique.
+       
 
-        ClientHandler(Socket socket, Nodes nodes) throws IOException 
-        {
-            this.Socket = socket;
-            this.Nodes = nodes;
+        private Socket socket;
 
+        private BufferedReader inputStream;
+        private PrintWriter outputStream;
 
-           bufferedReader = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(Socket.getOutputStream()));
-            System.out.println("Hello world!");
-            start();
-        }
+        String ID;
+
+       
+
+        public ClientHandler(Socket socket) throws IOException
+	{
+		this.socket = socket;
+		inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        outputStream = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+        start();
+	}
 
         @Override
         public void run() 
         {
-            while (true)
+            String message;
+            clients.add(this);
+            while (true) 
             {
-                try
-                {
-                    String message = bufferedReader.readLine();
-                    if(message!= null)
-                    {
-                        String[] split = message.split(" ");
-                        Message msg = new Message(split[0], Nodes);
-                        sendMessage(msg);
-                    }
-                    
-                    
-                }
-
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                
+            
+            try 
+            {
+                
+                
+               
+                
+                
+                message = inputStream.readLine();
+                broadcast(message);
+              //  message = inputStream.readLine();
+              controller.appendArea(message);
+                
+                
+               // System.out.println(message);
+                
+              
             }
 
+            catch (Exception e) 
+            {
+                //TODO: handle exception
+            }
         }
-        public void sendMessage(Message msg) throws IOException 
-        {
-            bufferedWriter.write(msg.getInfo());
-            bufferedWriter.flush();
-            System.out.println(msg.getInfo());
-        }
+
+    }
+        
+
     }
 }
 

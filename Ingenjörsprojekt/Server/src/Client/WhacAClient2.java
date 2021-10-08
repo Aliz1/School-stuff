@@ -11,13 +11,13 @@ import java.io.*;
  *
  * @author www.codejava.net
  */
-public class WhacAClient {
+public class WhacAClient2 {
     Controller controller;
     String hostname = "192.168.43.214";
     int port = 40000;
     PrintWriter writer;
     Socket clientHandler;
-    public WhacAClient(Controller controller)
+    public WhacAClient2(Controller controller)
     {
         this.controller = controller;
         setupClient();
@@ -29,9 +29,10 @@ public class WhacAClient {
        // int port = 13;
 
         
-        try (Socket clientsSocket = new Socket(hostname,port); PrintWriter writer = new PrintWriter(new OutputStreamWriter(clientsSocket.getOutputStream())); )
+        try (Socket clientsSocket = new Socket(hostname,port); PrintWriter writer = new PrintWriter(new OutputStreamWriter(clientsSocket.getOutputStream()));)
         {
-            writer.println("Hello I am client ");
+            int i = 2;
+            writer.println("Hello I am client " + i + "\n");
             writer.flush();
             
         } catch (UnknownHostException ex) {
@@ -43,13 +44,6 @@ public class WhacAClient {
             System.out.println("I/O error: ");
             ex.printStackTrace();
         }
-    }
-
-    public void sendMessageToServer(String message) throws IOException
-    {
-        writer = new PrintWriter(new OutputStreamWriter(clientHandler.getOutputStream()));
-        writer.write(message + "\n");
-        writer.flush();
     }
 
 }

@@ -12,7 +12,7 @@ public class PanelNorth extends JPanel implements ActionListener
     private JButton startButton;
     private JButton startClient;
     private JButton stopButton;
-    private JButton sendMsgFromClientBtn;
+    private JButton broadcastMsgBtn;
     private final Controller controller;
 
 
@@ -27,17 +27,17 @@ public class PanelNorth extends JPanel implements ActionListener
         startButton  = new JButton("Start server");
         startClient = new JButton("+1 client");
         stopButton = new JButton("Stop server");
-        sendMsgFromClientBtn = new JButton("Send message to server");
+        broadcastMsgBtn = new JButton("Broadcast message");
         startButton.addActionListener(this);
         startClient.addActionListener(this);
         stopButton.addActionListener(this);
-        sendMsgFromClientBtn.addActionListener(this);
+        broadcastMsgBtn.addActionListener(this);
         add(startButton);
         add(startClient);
         add(stopButton);
-        add(sendMsgFromClientBtn);
+        add(broadcastMsgBtn);
         stopButton.setEnabled(false);
-        sendMsgFromClientBtn.setEnabled(false);
+        broadcastMsgBtn.setEnabled(true);
     }
 
     public void actionPerformed(ActionEvent e)
@@ -63,7 +63,7 @@ public class PanelNorth extends JPanel implements ActionListener
             try
             {
                 controller.startClient();
-                sendMsgFromClientBtn.setEnabled(true);
+                broadcastMsgBtn.setEnabled(true);
             }
             catch (Exception ec)
             {
@@ -78,17 +78,11 @@ public class PanelNorth extends JPanel implements ActionListener
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
         }
-        if(e.getSource() == sendMsgFromClientBtn)
+        if(e.getSource() == broadcastMsgBtn)
         {
-            try {
-                controller.sendMessageToServer("Hello server I am client");
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            controller.broadcast();
+
         }
-
-
-
     }
 
 }
