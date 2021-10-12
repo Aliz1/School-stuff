@@ -7,10 +7,12 @@ public class Nodes
     Controller controller;
 
     private String id = "";
+    private String difficulty = "";
 
-    public Nodes(String ID)
+    public Nodes(String ID, String Difficulty)
     {
         this.id = ID;
+        this.difficulty = Difficulty;
     }
 
     public String getId() {
@@ -20,5 +22,15 @@ public class Nodes
     {
         this.id = ID;
         return id;
+    }
+    public String getDifficulty() {
+        return difficulty;
+    }
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+    @Override
+    public String toString() {
+        return String.format("ID: "+ getId() + " Difficulty: " + getDifficulty());
     }
 }

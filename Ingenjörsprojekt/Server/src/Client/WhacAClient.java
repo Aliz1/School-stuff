@@ -13,7 +13,7 @@ import java.io.*;
  */
 public class WhacAClient {
     Controller controller;
-    String hostname = "192.168.43.214";
+    String hostname = "172.20.10.7";
     int port = 40000;
     PrintWriter writer;
     Socket clientHandler;
@@ -31,7 +31,7 @@ public class WhacAClient {
         
         try (Socket clientsSocket = new Socket(hostname,port); PrintWriter writer = new PrintWriter(new OutputStreamWriter(clientsSocket.getOutputStream())); )
         {
-            writer.println("Hello I am client ");
+            writer.println("00:11:22:33//10\n");
             writer.flush();
             
         } catch (UnknownHostException ex) {
@@ -41,7 +41,7 @@ public class WhacAClient {
         } catch (IOException ex) {
 
             System.out.println("I/O error: ");
-            ex.printStackTrace();
+           // ex.printStackTrace();
         }
     }
 

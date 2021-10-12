@@ -49,6 +49,7 @@ public class PanelNorth extends JPanel implements ActionListener
             try
             {
                 controller.startServer();
+                
 
             }
             catch (IOException ioException)
