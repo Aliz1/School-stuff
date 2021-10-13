@@ -35,6 +35,7 @@ public class WhacAServer extends Thread implements Serializable {
 
     ClientHandler ch;
     String id;
+    String difficulty;
     Nodes currentNode;
     Nodes nextNode;
     boolean sentToFirstElement = false;
@@ -49,23 +50,24 @@ public class WhacAServer extends Thread implements Serializable {
 
     public void ControllerBroadcast()
     {
-        broadcast("Server", "Hello I am sending from button!");
+        broadcast("Server","//Sending from server button !\n");
     }
 
-    public void broadcast(String ID, String MSG)
+    public void broadcast(String IDB, String MSGB)
     {
-            
-            iterator = clientList.listIterator();
+            int i = 0;
             ClientHandler tempNode;
-
-            for(int i = 0; i < clientList.size(); i++)
+            for(i = 0; i < clientList.size(); )
             {
-                if (clientList.get(i).getId() != ID)
+                if (!clientList.get(i).getId().equals(IDB))
                 {
+                    System.out.println(IDB + " Line 66");
+                   //System.out.println( clientList.get(i).getId() + " Line 65");
                     tempNode = clients.get(i);
-                    tempNode.outputStream.write(MSG);
+                    tempNode.outputStream.write(MSGB);
                     tempNode.outputStream.flush();
                 }
+                i++;
             }
             
     }
@@ -137,7 +139,6 @@ public class WhacAServer extends Thread implements Serializable {
                     String who = bufferedReader.readLine();
                     String[] split = who.split("//");
                     id = split[0];
-                    String difficulty;
                     if (split.length >=2 ) 
                     {
                         difficulty = split[1];
@@ -146,14 +147,16 @@ public class WhacAServer extends Thread implements Serializable {
 
                         node = new Nodes(id , difficulty);
 
-                    clientList.add(node);
+                    
                     ch = new ClientHandler(socket);
+                    clientList.add(node);
+                    clients.add(ch);
                     /*for(int i = 0; i < clientList.size(); i++)
                     {
                         System.out.println(clientList.get(i).toString()); 
                     }*/
-                    broadcast(id, difficulty);
-                    System.out.println("Broadcasted line 167\n");
+                   // broadcast(id, difficulty);
+                    //System.out.println("Broadcasted line 167\n");
                     
                      
                 }
@@ -197,23 +200,24 @@ public class WhacAServer extends Thread implements Serializable {
         public void run() 
         {
             String message;
-            clients.add(this);
             
             while (true) 
             {
         
                 try 
                 {
-
+                    
                     message = inputStream.readLine();
-                    System.out.println(id);
-                    broadcast(id,message);
-                    controller.appendArea(message);
+                   String[] splitInclient = message.split("//");
+                    id = splitInclient[0];
+                    String msg = splitInclient[1];
+                    //System.out.println(id);
+                    broadcast(id,msg);
+                    controller.appendArea(msg);
                 }
 
                 catch (Exception e) 
                 {
-                   // e.printStackTrace();
                 }
             }
 
