@@ -3,11 +3,9 @@ package Controller;
 import Client.WhacAClient;
 import Model.Nodes;
 import Server.WhacAServer;
-import Server.WhacAServer.ClientHandler;
 import View.MainFrame;
 
 import java.io.IOException;
-import java.net.Socket;
 
 public class Controller
 {

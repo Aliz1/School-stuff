@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class CenterPanel extends JPanel
 {
-    public static final int  width = 300;
+    public static final int  width = 420;
     public static final int  height = 300;
    private JTextArea area = new JTextArea();
     private Controller controller;

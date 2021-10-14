@@ -2,7 +2,6 @@ package Server;
 
 import Controller.Controller;
 import Model.Nodes;
-import Model.Message;
 
 import javax.swing.*;
 
@@ -11,58 +10,47 @@ import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.TimerTask;
 
 
 public class WhacAServer extends Thread implements Serializable {
+
+    //Instansvariabler.
+
     Controller controller;
 
-    private LinkedList<String> IDs = new LinkedList<String>();
-
     private LinkedList<ClientHandler> clients = new LinkedList<ClientHandler>();
-    ListIterator<Nodes> iterator; 
-
 
     ServerSocket serverSocket;
-
-    ObjectOutputStream oos;
-    ObjectInputStream ois;
-
     Socket socket;
-
     ClientHandler ch;
+
     String id;
     String difficulty;
-    Nodes currentNode;
-    Nodes nextNode;
-    boolean sentToFirstElement = false;
-    boolean nextNodeChanged = false;
 
-    private HashMap<Nodes, ClientHandler> map = new HashMap<>();
+
     private LinkedList<Nodes> clientList;
 
     Nodes node;
 
     
-
+    // Used to send a message from server to clients. 
     public void ControllerBroadcast()
     {
         broadcast("Server","//Sending from server button !\n");
     }
 
+    //This method is called when a message is taken from one of the nodes. 
+    //The method broadcasts the message to all nodes except the one who sent it
     public void broadcast(String IDB, String MSGB)
     {
             int i = 0;
             ClientHandler tempNode;
+            //System.out.println(clientList.get(0).getId());
             for(i = 0; i < clientList.size(); )
             {
                 if (!clientList.get(i).getId().equals(IDB))
                 {
-                    System.out.println(IDB + " Line 66");
-                   //System.out.println( clientList.get(i).getId() + " Line 65");
                     tempNode = clients.get(i);
                     tempNode.outputStream.write(MSGB);
                     tempNode.outputStream.flush();
@@ -94,7 +82,6 @@ public class WhacAServer extends Thread implements Serializable {
         {
             serverSocket.close();
             stop();
-            //bufferedReader.close();
             
         }
 
@@ -131,14 +118,14 @@ public class WhacAServer extends Thread implements Serializable {
                 while (true)
                 {
                     socket = serverSocket.accept();
-                   
-                    System.out.println("Client connected");
-                    
+
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
                     String who = bufferedReader.readLine();
                     String[] split = who.split("//");
+
                     id = split[0];
+                    
                     if (split.length >=2 ) 
                     {
                         difficulty = split[1];
@@ -149,15 +136,10 @@ public class WhacAServer extends Thread implements Serializable {
 
                     
                     ch = new ClientHandler(socket);
+                    
                     clientList.add(node);
                     clients.add(ch);
-                    /*for(int i = 0; i < clientList.size(); i++)
-                    {
-                        System.out.println(clientList.get(i).toString()); 
-                    }*/
-                   // broadcast(id, difficulty);
-                    //System.out.println("Broadcasted line 167\n");
-                    
+                    controller.appendArea("Node with mac: " + id + " Connected to the server");
                      
                 }
                 
@@ -166,7 +148,7 @@ public class WhacAServer extends Thread implements Serializable {
 
             catch (IOException e)
             {
-                System.out.println("Server closed" );
+                controller.replaceArea("Server closed" );
             }
 
         }
@@ -182,8 +164,6 @@ public class WhacAServer extends Thread implements Serializable {
 
         private BufferedReader inputStream;
         private PrintWriter outputStream;
-
-        String ID;
 
        
 
@@ -208,12 +188,14 @@ public class WhacAServer extends Thread implements Serializable {
                 {
                     
                     message = inputStream.readLine();
-                   String[] splitInclient = message.split("//");
+
+                    String[] splitInclient = message.split("//");
                     id = splitInclient[0];
                     String msg = splitInclient[1];
-                    //System.out.println(id);
+
                     broadcast(id,msg);
-                    controller.appendArea(msg);
+
+                    controller.appendArea("Sent from: "+ id + " Message:" + msg);
                 }
 
                 catch (Exception e) 
