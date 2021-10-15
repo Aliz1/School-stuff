@@ -3,6 +3,8 @@ package View;
 import Controller.Controller;
 
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class PanelNorth extends JPanel implements ActionListener
         startClient.addActionListener(this);
         stopButton.addActionListener(this);
         broadcastMsgBtn.addActionListener(this);
+        setBackground(new Color(60, 60, 60));
         add(startButton);
         add(startClient);
         add(stopButton);

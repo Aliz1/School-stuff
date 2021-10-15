@@ -4,8 +4,14 @@ import Client.WhacAClient;
 import Model.Nodes;
 import Server.WhacAServer;
 import View.MainFrame;
+import View.PanelCenter;
+import View.PanelCenterEast;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import javax.swing.DefaultListModel;
 
 public class Controller
 {
@@ -13,6 +19,8 @@ public class Controller
     Nodes nodes;
     WhacAServer server;
     WhacAClient client1;
+    PanelCenter panelCenter;
+    PanelCenterEast panelCenterEast;
     public Controller() throws IOException {
         view = new MainFrame(this);
 
@@ -42,6 +50,19 @@ public class Controller
     public void broadcast()
     {
         server.ControllerBroadcast();
-        
     }
+    
+    public void updateOnlineMKController(LinkedList<Nodes> nodes)
+    {
+        System.out.println(nodes  + "line 56\n");
+        view.onlineUpdate(nodes);
+    }
+
+    public void updateOfflineMK(LinkedList<Nodes> nodes)
+    {
+       System.out.println(panelCenterEast+ " line 62\n"); 
+        panelCenterEast.updateOfflineMK(nodes);
+    }
+
+
 }

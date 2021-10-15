@@ -13,8 +13,9 @@ public class MainPanel extends JPanel
     BorderLayout layout;
 
     PanelNorth panelNorth;
-    CenterPanel centerPanel;
+    PanelCenter centerPanel;
     PanelSouth panelSouth;
+    public PanelCenterEast panelCenterEast;
     public MainPanel(Controller controller)
     {
         this.controller = controller;
@@ -28,14 +29,15 @@ public class MainPanel extends JPanel
         Border margin = BorderFactory.createEmptyBorder(1,1,1,1);
         setBorder(new CompoundBorder(border,margin));
         panelNorth = new PanelNorth(controller);
-        centerPanel = new CenterPanel(controller);
+      //  panelCenterEast = new PanelCenterEast(controller);
+        centerPanel = new PanelCenter(controller);
         panelSouth = new PanelSouth(controller);
         add(panelNorth,BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         add(panelSouth, BorderLayout.SOUTH);
-        setBackground(Color.GRAY);
+        setBackground(new Color(60,60,60));
     }
-    public CenterPanel getCenterPanel()
+    public PanelCenter getCenterPanel()
     {
         return centerPanel;
     }

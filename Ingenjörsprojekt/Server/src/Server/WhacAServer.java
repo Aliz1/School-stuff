@@ -29,7 +29,7 @@ public class WhacAServer extends Thread implements Serializable {
     String difficulty;
 
 
-    private LinkedList<Nodes> clientList;
+    public LinkedList<Nodes> clientList;
 
     Nodes node;
 
@@ -101,7 +101,7 @@ public class WhacAServer extends Thread implements Serializable {
         StartServer(int port)
         {
             this.port = port;
-            clientList = new LinkedList<Nodes>();
+            clientList = new LinkedList<>();
             
         }
 
@@ -132,15 +132,20 @@ public class WhacAServer extends Thread implements Serializable {
                     }else difficulty = "Not sent";
                     
 
-                        node = new Nodes(id , difficulty);
+                       // node = new Nodes(id , difficulty);
 
                     
                     ch = new ClientHandler(socket);
-                    
+                    node = new Nodes("11", "Sir");
                     clientList.add(node);
-                    clients.add(ch);
-                    broadcast("servern",  Integer.toString(clientList.size()) + "//Number Of Nodes");
+                    //System.out.println(clientList);
+                    controller.updateOnlineMKController(clientList);
+
+                    
+                  //  clients.add(ch);
+                   // broadcast("servern",  Integer.toString(clientList.size()) + "//Number Of Nodes");
                     controller.appendArea("Node with mac: " + id + " Connected to the server");
+                    System.out.println(clientList.size());
                      
                 }
                 

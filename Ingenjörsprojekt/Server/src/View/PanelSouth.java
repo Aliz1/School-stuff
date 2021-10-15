@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import Controller.Controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +21,7 @@ public class PanelSouth extends JPanel implements ActionListener
     {
         clearButton = new JButton("Clear area");
         clearButton.addActionListener(this);
+        setBackground(new Color(60,60,60));
         add(clearButton);
 
     }

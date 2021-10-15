@@ -1,8 +1,10 @@
 package Model;
 
+import java.io.Serializable;
+
 import Controller.Controller;
 
-public class Nodes
+public class Nodes implements Serializable
 {
     Controller controller;
 
