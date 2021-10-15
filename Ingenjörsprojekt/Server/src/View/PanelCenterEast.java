@@ -7,9 +7,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class PanelCenterEast extends JPanel
 {

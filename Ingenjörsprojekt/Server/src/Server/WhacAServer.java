@@ -81,7 +81,13 @@ public class WhacAServer extends Thread implements Serializable {
         try
         {
             serverSocket.close();
+            if(socket!= null)
+            {
+                socket.close();
+            }
+            
             stop();
+            
             
         }
 
