@@ -132,13 +132,13 @@ public class WhacAServer extends Thread implements Serializable {
                     }else difficulty = "Not sent";
                     
 
-                       // node = new Nodes(id , difficulty);
+                        node = new Nodes(id , difficulty);
 
                     
                     ch = new ClientHandler(socket);
-                    node = new Nodes("11", "Sir");
+                    //node = new Nodes("11", "Sir");
                     clientList.add(node);
-                    //System.out.println(clientList);
+                    System.out.println(clientList);
                     controller.updateOnlineMKController(clientList);
 
                     

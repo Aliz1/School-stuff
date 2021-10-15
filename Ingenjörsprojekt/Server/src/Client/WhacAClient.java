@@ -25,7 +25,7 @@ public class WhacAClient {
 
     public void setupClient()
     {
-      //  String hostname = "127.0.0.1";
+        String hostname = "127.0.0.1";
        // int port = 13;
 
         
