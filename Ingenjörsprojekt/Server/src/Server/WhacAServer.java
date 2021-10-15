@@ -37,7 +37,7 @@ public class WhacAServer extends Thread implements Serializable {
     // Used to send a message from server to clients. 
     public void ControllerBroadcast()
     {
-        broadcast("Server","//Sending from server button !\n");
+        broadcast("Server","1200//Difficulty\n");
     }
 
     //This method is called when a message is taken from one of the nodes. 
@@ -139,6 +139,7 @@ public class WhacAServer extends Thread implements Serializable {
                     
                     clientList.add(node);
                     clients.add(ch);
+                    broadcast("servern",  Integer.toString(clientList.size()) + "//Number Of Nodes");
                     controller.appendArea("Node with mac: " + id + " Connected to the server");
                      
                 }
@@ -193,9 +194,9 @@ public class WhacAServer extends Thread implements Serializable {
                     id = splitInclient[0];
                     String msg = splitInclient[1];
 
-                    broadcast(id,msg);
+                    broadcast(id,msg+"//Difficulty");
 
-                    controller.appendArea("Sent from: "+ id + " Message:" + msg);
+                    controller.appendArea("Sent from: "+ id + " Message: " + msg);
                 }
 
                 catch (Exception e) 

@@ -14,7 +14,7 @@ import java.io.*;
 public class WhacAClient {
     Controller controller;
     String hostname = "172.20.10.7";
-    int port = 40000;
+    int port = 8080;
     PrintWriter writer;
     Socket clientHandler;
     public WhacAClient(Controller controller)
