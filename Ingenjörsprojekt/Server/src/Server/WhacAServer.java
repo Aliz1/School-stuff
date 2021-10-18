@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 
 
-public class WhacAServer extends Thread implements Serializable {
+public class WhacAServer extends Thread {
 
     //Instansvariabler.
 
@@ -168,9 +168,9 @@ public class WhacAServer extends Thread implements Serializable {
 
        
 
-        public ClientHandler(Socket socket) throws IOException
+        public ClientHandler(Socket Socket) throws IOException
 	{
-		this.socket = socket;
+		this.socket = Socket;
 		inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         outputStream = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 

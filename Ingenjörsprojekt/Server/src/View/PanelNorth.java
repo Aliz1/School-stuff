@@ -1,7 +1,6 @@
 package View;
 
 import Controller.Controller;
-import Server.WhacAServer.ClientHandler;
 
 import javax.swing.*;
 

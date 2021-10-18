@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.*;
