@@ -25,7 +25,7 @@ public class WhacAServer extends Thread implements Serializable {
     Socket socket;
     ClientHandler ch;
 
-    String id;
+    String mac;
     String difficulty;
 
 
@@ -81,7 +81,12 @@ public class WhacAServer extends Thread implements Serializable {
         try
         {
             serverSocket.close();
-            stop();
+            if (socket!=null) 
+            {
+                socket.close();   
+            }
+            clientList.clear();
+            controller.updateOnlineMKController(clientList);
             
         }
 
@@ -124,7 +129,7 @@ public class WhacAServer extends Thread implements Serializable {
                     String who = bufferedReader.readLine();
                     String[] split = who.split("//");
 
-                    id = split[0];
+                    mac = split[0];
                     
                     if (split.length >=2 ) 
                     {
@@ -132,20 +137,13 @@ public class WhacAServer extends Thread implements Serializable {
                     }else difficulty = "Not sent";
                     
 
-                       // node = new Nodes(id , difficulty);
+                    node = new Nodes(mac , difficulty);
 
                     
                     ch = new ClientHandler(socket);
-                    node = new Nodes("11", "Sir");
                     clientList.add(node);
-                    //System.out.println(clientList);
                     controller.updateOnlineMKController(clientList);
-
-                    
-                  //  clients.add(ch);
-                   // broadcast("servern",  Integer.toString(clientList.size()) + "//Number Of Nodes");
-                    controller.appendArea("Node with mac: " + id + " Connected to the server");
-                    System.out.println(clientList.size());
+                    controller.appendArea("Node with mac: " + mac + " Connected to the server");
                      
                 }
                 
@@ -163,9 +161,6 @@ public class WhacAServer extends Thread implements Serializable {
 
     public class ClientHandler extends Thread 
     {
-        //Uses a list of strings for currently used ID's to keep them  unique.
-       
-
         private Socket socket;
 
         private BufferedReader inputStream;
@@ -196,12 +191,12 @@ public class WhacAServer extends Thread implements Serializable {
                     message = inputStream.readLine();
 
                     String[] splitInclient = message.split("//");
-                    id = splitInclient[0];
+                    mac = splitInclient[0];
                     String msg = splitInclient[1];
 
-                    broadcast(id,msg+"//Difficulty");
+                    broadcast(mac,msg+"//Difficulty");
 
-                    controller.appendArea("Sent from: "+ id + " Message: " + msg);
+                    controller.appendArea("Sent from: "+ mac + " Message: " + msg);
                 }
 
                 catch (Exception e) 

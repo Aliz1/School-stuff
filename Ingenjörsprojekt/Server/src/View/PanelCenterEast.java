@@ -7,9 +7,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class PanelCenterEast extends JPanel
 {
@@ -31,9 +29,9 @@ public class PanelCenterEast extends JPanel
     private Controller controller;
     
 
-    public PanelCenterEast(Controller controller)
+    public PanelCenterEast(Controller Controller)
     {
-        this.controller = controller;
+        this.controller = Controller;
        setupCenter();
     }
 

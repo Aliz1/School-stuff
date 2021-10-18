@@ -8,10 +8,7 @@ import View.PanelCenter;
 import View.PanelCenterEast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
-
-import javax.swing.DefaultListModel;
 
 public class Controller
 {
@@ -54,13 +51,11 @@ public class Controller
     
     public void updateOnlineMKController(LinkedList<Nodes> nodes)
     {
-        System.out.println(nodes  + "line 56\n");
         view.onlineUpdate(nodes);
     }
 
     public void updateOfflineMK(LinkedList<Nodes> nodes)
     {
-       System.out.println(panelCenterEast+ " line 62\n"); 
         panelCenterEast.updateOfflineMK(nodes);
     }
 

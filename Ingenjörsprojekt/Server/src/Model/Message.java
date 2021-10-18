@@ -24,10 +24,5 @@ public class Message implements Serializable {
     public Nodes getNode() {
         return Node;
     }
-
-   /* @Override
-    public String toString() {
-        return String.format("The number of nodes is: %s");
-    }*/
 }
 
