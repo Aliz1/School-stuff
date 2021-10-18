@@ -19,8 +19,10 @@ public class WhacAClient {
         setupClient();
     }
 
-    public void setupClient()
-    {   
+    public void setupClient()   
+    {
+
+        
         try (Socket clientsSocket = new Socket(hostname,port); PrintWriter writer = new PrintWriter(new OutputStreamWriter(clientsSocket.getOutputStream())); )
         {
             writer.println("00:11:22:33//10\n");
