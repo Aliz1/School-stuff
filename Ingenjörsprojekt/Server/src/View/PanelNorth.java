@@ -85,7 +85,7 @@ public class PanelNorth extends JPanel implements ActionListener
         if(e.getSource() == broadcastMsgBtn)
         {
             controller.broadcast();
-
+            
         }
     }
 

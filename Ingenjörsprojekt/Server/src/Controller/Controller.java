@@ -56,8 +56,7 @@ public class Controller
 
     public void updateOfflineMK(LinkedList<Nodes> nodes)
     {
-        panelCenterEast.updateOfflineMK(nodes);
+        view.offlineUpdate(nodes);
     }
-
 
 }

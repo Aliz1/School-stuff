@@ -8,22 +8,22 @@ public class Nodes implements Serializable
 {
     Controller controller;
 
-    private String id = "";
+    private String mac = "";
     private String difficulty = "";
 
-    public Nodes(String ID, String Difficulty)
+    public Nodes(String Mac, String Difficulty)
     {
-        this.id = ID;
+        this.mac = Mac;
         this.difficulty = Difficulty;
     }
 
-    public String getId() {
-        return id;
+    public String getMac() {
+        return mac;
     }
-    public String setID(String ID)
+    public String setMac(String Mac)
     {
-        this.id = ID;
-        return id;
+        this.mac = Mac;
+        return mac;
     }
     public String getDifficulty() {
         return difficulty;
@@ -33,6 +33,6 @@ public class Nodes implements Serializable
     }
     @Override
     public String toString() {
-        return String.format("ID: "+ getId() + " Difficulty: " + getDifficulty());
+        return String.format("ID: "+ getMac() + " Difficulty: " + getDifficulty());
     }
 }

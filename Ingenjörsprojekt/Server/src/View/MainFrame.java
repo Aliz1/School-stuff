@@ -49,5 +49,9 @@ public class MainFrame extends JFrame
     {
         panel.getCenterPanel().east.updateOnlineMK(nodes);
     }
+    public void offlineUpdate(LinkedList<Nodes> nodes)
+    {
+        panel.getCenterPanel().east.updateOfflineMK(nodes);
+    }
 
 }

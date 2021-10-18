@@ -28,8 +28,11 @@ public class WhacAServer extends Thread {
     String mac;
     String difficulty;
 
+    String collectionOfMacAdresses;
 
-    public LinkedList<Nodes> clientList;
+
+    public LinkedList<Nodes> onlineClientList;
+    public LinkedList<Nodes> offlineClientList;
 
     Nodes node;
 
@@ -47,12 +50,12 @@ public class WhacAServer extends Thread {
             int i = 0;
             ClientHandler tempNode;
             //System.out.println(clientList.get(0).getId());
-            for(i = 0; i < clientList.size(); )
+            for(i = 0; i < onlineClientList.size(); )
             {
-                if (!clientList.get(i).getId().equals(IDB))
+                if (!onlineClientList.get(i).getMac().equals(IDB))
                 {
                     tempNode = clients.get(i);
-                    tempNode.outputStream.write(MSGB);
+                    tempNode.outputStream.write(mac + "//" + MSGB);
                     tempNode.outputStream.flush();
                 }
                 i++;
@@ -85,8 +88,8 @@ public class WhacAServer extends Thread {
             {
                 socket.close();   
             }
-            clientList.clear();
-            controller.updateOnlineMKController(clientList);
+            onlineClientList.clear();
+            controller.updateOnlineMKController(onlineClientList);
             
         }
 
@@ -106,7 +109,8 @@ public class WhacAServer extends Thread {
         StartServer(int port)
         {
             this.port = port;
-            clientList = new LinkedList<>();
+            onlineClientList = new LinkedList<>();
+            offlineClientList = new LinkedList<>();
             
         }
 
@@ -141,9 +145,20 @@ public class WhacAServer extends Thread {
 
                     
                     ch = new ClientHandler(socket);
-                    clientList.add(node);
-                    controller.updateOnlineMKController(clientList);
+                    onlineClientList.add(node);
+                    clients.add(ch);
+                    controller.updateOnlineMKController(onlineClientList);
                     controller.appendArea("Node with mac: " + mac + " Connected to the server");
+
+                    for (int i = 0; i < onlineClientList.size() ; i++)
+                    {
+                        collectionOfMacAdresses += onlineClientList.get(i).getMac() + "//";
+                    }
+                    if (onlineClientList.size() > 0) 
+                    {
+                        broadcast(collectionOfMacAdresses, "Connected Mac Adresses");
+                    }
+                    
                      
                 }
                 
@@ -190,9 +205,27 @@ public class WhacAServer extends Thread {
                     
                     message = inputStream.readLine();
 
-                    String[] splitInclient = message.split("//");
-                    mac = splitInclient[0];
-                    String msg = splitInclient[1];
+                    String[] splitInClientHandler = message.split("//");
+                    mac = splitInClientHandler[0];
+                    String msg = splitInClientHandler[1];
+
+                    if(message.contains("Disconnected"))
+                    {
+                        
+                        for(int i = 0; i < onlineClientList.size() ; i++)
+                        {
+                            
+                            if (onlineClientList.get(i).getMac().equals(mac)) 
+                            {
+                                
+                                offlineClientList.add(onlineClientList.get(i));
+                                onlineClientList.remove(i);
+                                controller.updateOnlineMKController(onlineClientList);
+                                controller.updateOfflineMK(offlineClientList);
+                                
+                            }
+                        }
+                    }
 
                     broadcast(mac,msg+"//Difficulty");
 

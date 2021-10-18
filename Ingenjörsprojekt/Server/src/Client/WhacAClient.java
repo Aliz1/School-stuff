@@ -38,11 +38,4 @@ public class WhacAClient {
         }
     }
 
-    public void sendMessageToServer(String message) throws IOException
-    {
-        writer = new PrintWriter(new OutputStreamWriter(clientHandler.getOutputStream()));
-        writer.write(message + "\n");
-        writer.flush();
-    }
-
 }
