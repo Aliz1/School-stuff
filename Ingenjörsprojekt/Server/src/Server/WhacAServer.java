@@ -28,7 +28,7 @@ public class WhacAServer extends Thread {
     String mac;
     String difficulty;
 
-    String collectionOfMacAdresses;
+    String collectionOfMacAdresses = "";
 
 
     public LinkedList<Nodes> onlineClientList;
@@ -45,21 +45,22 @@ public class WhacAServer extends Thread {
 
     //This method is called when a message is taken from one of the nodes. 
     //The method broadcasts the message to all nodes except the one who sent it
-    public void broadcast(String IDB, String MSGB)
+    public void broadcast(String MacBroadcast, String MSGBroadcast)
     {
             int i = 0;
             ClientHandler tempNode;
             //System.out.println(clientList.get(0).getId());
             for(i = 0; i < onlineClientList.size(); )
             {
-                if (!onlineClientList.get(i).getMac().equals(IDB))
+                if (!onlineClientList.get(i).getMac().equals(MacBroadcast))
                 {
                     tempNode = clients.get(i);
-                    tempNode.outputStream.write(mac + "//" + MSGB);
+                    tempNode.outputStream.write(MacBroadcast + MSGBroadcast);
                     tempNode.outputStream.flush();
                 }
                 i++;
             }
+            System.out.println(MacBroadcast + MSGBroadcast);
             
     }
 
@@ -145,19 +146,26 @@ public class WhacAServer extends Thread {
 
                     
                     ch = new ClientHandler(socket);
-                    onlineClientList.add(node);
-                    clients.add(ch);
-                    controller.updateOnlineMKController(onlineClientList);
-                    controller.appendArea("Node with mac: " + mac + " Connected to the server");
-
+                        onlineClientList.add(node);
+                        clients.add(ch);
+                        controller.updateOnlineMKController(onlineClientList);
+                        controller.appendArea("Node with mac: " + mac + " Connected to the server");
+                    
+                        controller.appendArea(who);
+                        System.out.println(who);
                     for (int i = 0; i < onlineClientList.size() ; i++)
                     {
-                        collectionOfMacAdresses += onlineClientList.get(i).getMac() + "//";
+                        if(collectionOfMacAdresses.contains(onlineClientList.get(i).getMac()))
+                        {
+                            //Do nothing
+                        }
+                        else
+                        {
+                            collectionOfMacAdresses += "//" +onlineClientList.get(i).getMac() ;
+                        }
+                        
                     }
-                    if (onlineClientList.size() > 0) 
-                    {
-                        broadcast(collectionOfMacAdresses, "Connected Mac Adresses");
-                    }
+                        broadcast("Connected mac addresses", collectionOfMacAdresses);
                     
                      
                 }
@@ -226,10 +234,13 @@ public class WhacAServer extends Thread {
                             }
                         }
                     }
+                    else
+                    {
+                        broadcast(mac,""+msg+"//Difficulty");
+                        controller.appendArea("Sent from: "+ mac + " Message: " + msg);
+                    }
 
-                    broadcast(mac,msg+"//Difficulty");
-
-                    controller.appendArea("Sent from: "+ mac + " Message: " + msg);
+                    
                 }
 
                 catch (Exception e) 
