@@ -49,9 +49,12 @@ public class WhacAServer extends Thread {
     {
             int i = 0;
             ClientHandler tempNode;
+            controller.appendArea(MacBroadcast + MSGBroadcast + "\nFrom server!!!");
+            System.out.println(MacBroadcast + MSGBroadcast);
             //System.out.println(clientList.get(0).getId());
             for(i = 0; i < onlineClientList.size(); )
             {
+                
                 if (!onlineClientList.get(i).getMac().equals(MacBroadcast))
                 {
                     tempNode = clients.get(i);
@@ -60,7 +63,6 @@ public class WhacAServer extends Thread {
                 }
                 i++;
             }
-            System.out.println(MacBroadcast + MSGBroadcast);
             
     }
 
@@ -133,6 +135,8 @@ public class WhacAServer extends Thread {
 
                     String who = bufferedReader.readLine();
                     String[] split = who.split("//");
+                    controller.appendArea(who);
+                    System.out.println(who);
 
                     mac = split[0];
                     
@@ -151,8 +155,7 @@ public class WhacAServer extends Thread {
                         controller.updateOnlineMKController(onlineClientList);
                         controller.appendArea("Node with mac: " + mac + " Connected to the server");
                     
-                        controller.appendArea(who);
-                        System.out.println(who);
+                        
                     for (int i = 0; i < onlineClientList.size() ; i++)
                     {
                         if(collectionOfMacAdresses.contains(onlineClientList.get(i).getMac()))

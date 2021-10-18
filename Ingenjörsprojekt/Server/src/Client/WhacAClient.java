@@ -25,7 +25,7 @@ public class WhacAClient {
         
         try (Socket clientsSocket = new Socket(hostname,port); PrintWriter writer = new PrintWriter(new OutputStreamWriter(clientsSocket.getOutputStream())); )
         {
-            writer.println("Connected//10\n");
+            writer.println("00:11:22:33:44//10\n");
             writer.flush();
             
         } catch (UnknownHostException ex) {
