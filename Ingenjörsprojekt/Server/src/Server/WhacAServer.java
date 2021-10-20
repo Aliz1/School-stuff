@@ -40,7 +40,7 @@ public class WhacAServer extends Thread {
     // Used to send a message from server to clients. 
     public void ControllerBroadcast()
     {
-        broadcast("Server","1200//Difficulty\n");
+        broadcast("B8:F0:09:CC:45:F1//","1200//Difficulty\n");
     }
 
     //This method is called when a message is taken from one of the nodes. 
@@ -75,7 +75,7 @@ public class WhacAServer extends Thread {
 
         try
         {
-            new StartServer(Integer.parseInt(JOptionPane.showInputDialog(null, "Välj port"))).start();
+            new StartServer(8080).start();
         }
 
         catch (Exception e)
