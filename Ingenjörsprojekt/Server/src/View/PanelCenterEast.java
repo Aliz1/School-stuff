@@ -75,6 +75,8 @@ public class PanelCenterEast extends JPanel
 
         tfofflineMK.setBorder(offlineBorder);
         tfonlineMK.setBorder(onlineBorder);
+        scrollOnlinPane.setAutoscrolls(true);
+        scrollOfflinPane.setAutoscrolls(true);
 
         add(scrollOnlinPane, BorderLayout.NORTH);
         add(scrollOfflinPane, BorderLayout.SOUTH);

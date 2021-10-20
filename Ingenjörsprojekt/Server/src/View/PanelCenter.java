@@ -35,6 +35,7 @@ public class PanelCenter extends JPanel
         scroll = new JScrollPane(area);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setAutoscrolls(true);
         scroll.setPreferredSize(new Dimension(width/2, height));
         area.setBackground(new Color (60,60,60));
         area.setForeground(Color.white);

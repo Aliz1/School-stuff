@@ -55,6 +55,9 @@ public class WhacAServer extends Thread {
             for(i = 0; i < onlineClientList.size(); )
             {
                 
+                System.out.println(!onlineClientList.get(i).getMac().equals(MacBroadcast));
+                System.out.println(onlineClientList.get(i).getMac());
+                System.out.println(MacBroadcast);
                 if (!onlineClientList.get(i).getMac().equals(MacBroadcast))
                 {
                     tempNode = clients.get(i);
@@ -226,22 +229,29 @@ public class WhacAServer extends Thread {
                         for(int i = 0; i < onlineClientList.size() ; i++)
                         {
                             
-                            if (onlineClientList.get(i).getMac().equals(mac)) 
+                            if (onlineClientList.get(i).getMac().equals(msg)) 
                             {
                                 
                                 offlineClientList.add(onlineClientList.get(i));
+                                broadcast(mac, "//"+msg + "//Disconnected");
                                 onlineClientList.remove(i);
                                 controller.updateOnlineMKController(onlineClientList);
                                 controller.updateOfflineMK(offlineClientList);
                                 
+                                
                             }
                         }
                     }
+                    else if (message.contains("starting")) 
+                    {
+                        broadcast(mac, "//"+ msg);   
+                    }
                     else
                     {
-                        broadcast(mac,""+msg+"//Difficulty");
+                        broadcast(mac,"//"+msg+"//Difficulty");
                         controller.appendArea("Sent from: "+ mac + " Message: " + msg);
                     }
+
 
                     
                 }

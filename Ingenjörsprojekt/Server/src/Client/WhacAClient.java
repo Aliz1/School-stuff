@@ -3,6 +3,9 @@ package Client;
 import Controller.Controller;
 
 import java.net.*;
+
+import javax.swing.JOptionPane;
+
 import java.io.*;
 
 /**
@@ -16,16 +19,17 @@ public class WhacAClient {
     public WhacAClient(Controller controller)
     {
         this.controller = controller;
-        setupClient();
+        String mac = JOptionPane.showInputDialog("Mac adress: ");
+        setupClient(mac);
     }
 
-    public void setupClient()   
+    public void setupClient(String mac)   
     {
 
         
         try (Socket clientsSocket = new Socket(hostname,port); PrintWriter writer = new PrintWriter(new OutputStreamWriter(clientsSocket.getOutputStream())); )
         {
-            writer.println("00:11:22:33:44//10\n");
+            writer.println(mac + "//" + 10);
             writer.flush();
             
         } catch (UnknownHostException ex) {
