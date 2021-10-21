@@ -40,7 +40,7 @@ public class WhacAServer extends Thread {
     // Used to send a message from server to clients. 
     public void ControllerBroadcast()
     {
-        broadcast("B8:F0:09:CC:45:F1//","1200//Difficulty\n");
+        broadcast("B8:F0:09:CC:45:F1//","10//Difficulty\n");
     }
 
     //This method is called when a message is taken from one of the nodes. 
