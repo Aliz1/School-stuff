@@ -50,14 +50,14 @@ public class WhacAServer extends Thread {
             int i = 0;
             ClientHandler tempNode;
             controller.appendArea(MacBroadcast + MSGBroadcast + "\nFrom server!!!");
-            System.out.println(MacBroadcast + MSGBroadcast);
+           // System.out.println(MacBroadcast + MSGBroadcast);
             //System.out.println(clientList.get(0).getId());
             for(i = 0; i < onlineClientList.size(); )
             {
                 
-                System.out.println(!onlineClientList.get(i).getMac().equals(MacBroadcast));
-                System.out.println(onlineClientList.get(i).getMac());
-                System.out.println(MacBroadcast);
+               // System.out.println(!onlineClientList.get(i).getMac().equals(MacBroadcast));
+               // System.out.println(onlineClientList.get(i).getMac());
+                //System.out.println(MacBroadcast);
                 if (!onlineClientList.get(i).getMac().equals(MacBroadcast))
                 {
                     tempNode = clients.get(i);
@@ -90,10 +90,7 @@ public class WhacAServer extends Thread {
         try
         {
             serverSocket.close();
-            if (socket!=null) 
-            {
-                socket.close();   
-            }
+            clients.clear();
             onlineClientList.clear();
             controller.updateOnlineMKController(onlineClientList);
             
@@ -139,7 +136,8 @@ public class WhacAServer extends Thread {
                     String who = bufferedReader.readLine();
                     String[] split = who.split("//");
                     controller.appendArea(who);
-                    System.out.println(who);
+                   // System.out.println(who);
+                    collectionOfMacAdresses = "";
 
                     mac = split[0];
                     
@@ -155,6 +153,7 @@ public class WhacAServer extends Thread {
                     ch = new ClientHandler(socket);
                         onlineClientList.add(node);
                         clients.add(ch);
+                       // System.out.println("Hello world!");
                         controller.updateOnlineMKController(onlineClientList);
                         controller.appendArea("Node with mac: " + mac + " Connected to the server");
                     
@@ -167,11 +166,12 @@ public class WhacAServer extends Thread {
                         }
                         else
                         {
-                            collectionOfMacAdresses += "//" +onlineClientList.get(i).getMac() ;
+                            collectionOfMacAdresses += "//" + onlineClientList.get(i).getMac() ;
                         }
                         
                     }
                         broadcast("Connected mac addresses", collectionOfMacAdresses);
+                        System.out.println(collectionOfMacAdresses);
                     
                      
                 }
@@ -233,8 +233,12 @@ public class WhacAServer extends Thread {
                             {
                                 
                                 offlineClientList.add(onlineClientList.get(i));
-                                broadcast(mac, "//"+msg + "//Disconnected");
+                               // broadcast(mac, "//"+msg + "//Disconnected");
+                                controller.appendArea("Sent from: "+ mac + "  " + msg+ "Disconnected\n");
                                 onlineClientList.remove(i);
+                                clients.get(i).socket.close();
+                                clients.remove(i);
+
                                 controller.updateOnlineMKController(onlineClientList);
                                 controller.updateOfflineMK(offlineClientList);
                                 
@@ -244,7 +248,7 @@ public class WhacAServer extends Thread {
                     }
                     else if (message.contains("starting")) 
                     {
-                        broadcast(mac, "//"+ msg);   
+                        //Do nothing
                     }
                     else
                     {

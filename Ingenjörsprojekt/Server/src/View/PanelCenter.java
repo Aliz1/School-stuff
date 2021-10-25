@@ -58,6 +58,9 @@ public class PanelCenter extends JPanel
     public void appendArea(String msg)
     {
         area.append("\n"+ msg);
+        area.setAutoscrolls(true);
+        scroll.setAutoscrolls(true);
+        area.getAutoscrolls();
     }
     public PanelCenterEast getPanelCenterEast()
     {
