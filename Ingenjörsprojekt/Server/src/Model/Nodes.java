@@ -10,6 +10,7 @@ public class Nodes implements Serializable
 
     private String mac = "";
     private String difficulty = "";
+    private String Mmr = "";
 
     public Nodes(String Mac, String Difficulty)
     {
@@ -30,6 +31,15 @@ public class Nodes implements Serializable
     }
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public String getMmr() 
+    {
+        return Mmr;
+    }
+    public void setMmr(String mmr) 
+    {
+        Mmr = mmr;
     }
     @Override
     public String toString() {

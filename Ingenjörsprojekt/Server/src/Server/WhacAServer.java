@@ -144,18 +144,18 @@ public class WhacAServer extends Thread {
                     if (split.length >=2 ) 
                     {
                         difficulty = split[1];
+                        
                     }else difficulty = "Not sent";
                     
 
-                    node = new Nodes(mac , difficulty);
+                   
 
-                    
+                    node = new Nodes(mac , difficulty );
                     ch = new ClientHandler(socket);
-                        onlineClientList.add(node);
-                        clients.add(ch);
-                       // System.out.println("Hello world!");
-                        controller.updateOnlineMKController(onlineClientList);
-                        controller.appendArea("Node with mac: " + mac + " Connected to the server");
+                    onlineClientList.add(node);
+                    clients.add(ch);
+                    controller.updateOnlineMKController(onlineClientList);
+                    controller.appendArea("Node with mac: " + mac + " Connected to the server");
                     
                         
                     for (int i = 0; i < onlineClientList.size() ; i++)

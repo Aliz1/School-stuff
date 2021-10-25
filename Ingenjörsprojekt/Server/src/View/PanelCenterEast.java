@@ -104,7 +104,7 @@ public class PanelCenterEast extends JPanel
 
         for (Nodes s: nodes){
 
-            OfflineListModel.addElement(s.getMac());
+            OfflineListModel.addElement(s.getMac() + "");
         }
         tfofflineMK.setModel(OfflineListModel);
         tfofflineMK.repaint();
