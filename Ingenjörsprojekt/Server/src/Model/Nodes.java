@@ -12,10 +12,11 @@ public class Nodes implements Serializable
     private String difficulty = "";
     private String Mmr = "";
 
-    public Nodes(String Mac, String Difficulty)
+    public Nodes(String Mac, String Difficulty, String mMRString)
     {
         this.mac = Mac;
         this.difficulty = Difficulty;
+        this.Mmr = mMRString;
     }
 
     public String getMac() {
@@ -37,12 +38,13 @@ public class Nodes implements Serializable
     {
         return Mmr;
     }
-    public void setMmr(String mmr) 
+    public void setMmr(String mMRString) 
     {
-        Mmr = mmr;
+        Mmr = mMRString;
     }
     @Override
-    public String toString() {
-        return String.format("ID: "+ getMac() + " Difficulty: " + getDifficulty());
+    public String toString() 
+    {
+        return String.format("MAC: "+ getMac() + " MMR " + getMmr());
     }
 }

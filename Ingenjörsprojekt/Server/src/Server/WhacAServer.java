@@ -3,8 +3,6 @@ package Server;
 import Controller.Controller;
 import Model.Nodes;
 
-import javax.swing.*;
-
 
 
 import java.io.*;
@@ -27,20 +25,24 @@ public class WhacAServer extends Thread {
 
     String mac;
     String difficulty;
+    String mmrString;
 
     String collectionOfMacAdresses = "";
+    String lastTwoMac = "";
 
 
     public LinkedList<Nodes> onlineClientList;
     public LinkedList<Nodes> offlineClientList;
+    public LinkedList<Nodes> viewList = new LinkedList<>();
 
     Nodes node;
+    Nodes viewNode;
 
     
     // Used to send a message from server to clients. 
     public void ControllerBroadcast()
     {
-        broadcast("B8:F0:09:CC:45:F1//","10//Difficulty\n");
+        broadcast("B8:F0:09:CC:45:F1//","10//Difficulty/3000\n");
     }
 
     //This method is called when a message is taken from one of the nodes. 
@@ -140,6 +142,9 @@ public class WhacAServer extends Thread {
                     collectionOfMacAdresses = "";
 
                     mac = split[0];
+                    String[] macSplit = mac.split(":");
+                    lastTwoMac = macSplit[5];
+                    mmrString =  "1000";
                     
                     if (split.length >=2 ) 
                     {
@@ -150,11 +155,13 @@ public class WhacAServer extends Thread {
 
                    
 
-                    node = new Nodes(mac , difficulty );
+                    node = new Nodes(mac , difficulty , mmrString );
+                    viewNode = new Nodes(lastTwoMac , difficulty , mmrString );
                     ch = new ClientHandler(socket);
                     onlineClientList.add(node);
+                    viewList.add(viewNode);
                     clients.add(ch);
-                    controller.updateOnlineMKController(onlineClientList);
+                    controller.updateOnlineMKController(viewList);
                     controller.appendArea("Node with mac: " + mac + " Connected to the server");
                     
                         
@@ -220,8 +227,24 @@ public class WhacAServer extends Thread {
                     message = inputStream.readLine();
 
                     String[] splitInClientHandler = message.split("//");
+                    String[] splitInClientHandler2 = message.split("/");
+                    
                     mac = splitInClientHandler[0];
+                    String[] macSplitInClientHandler = mac.split(":");
+                    mmrString = splitInClientHandler2[3];
+                    lastTwoMac = macSplitInClientHandler[5];
                     String msg = splitInClientHandler[1];
+                    System.out.println(mac);
+                    
+                    for (int i = 0; i < viewList.size(); i++) 
+                    {
+                        if (lastTwoMac.equals(viewList.get(i).getMac())) 
+                        {
+                            System.out.println("Hello darkness my old friend!");
+                            viewList.get(i).setMmr(mmrString);
+                            controller.updateOnlineMKController(viewList);
+                        }   
+                    }
 
                     if(message.contains("Disconnected"))
                     {
@@ -232,15 +255,16 @@ public class WhacAServer extends Thread {
                             if (onlineClientList.get(i).getMac().equals(msg)) 
                             {
                                 
-                                offlineClientList.add(onlineClientList.get(i));
-                               // broadcast(mac, "//"+msg + "//Disconnected");
+                                offlineClientList.add(viewList.get(i));
+                                //broadcast(mac, "//" +msg + "//Disconnected");
                                 controller.appendArea("Sent from: "+ mac + "  " + msg+ "Disconnected\n");
                                 onlineClientList.remove(i);
+                                viewList.remove(i);
                                 clients.get(i).socket.close();
                                 clients.remove(i);
 
-                                controller.updateOnlineMKController(onlineClientList);
-                                controller.updateOfflineMK(offlineClientList);
+                                controller.updateOnlineMKController(viewList);
+                                controller.updateOfflineMK(viewList);
                                 
                                 
                             }

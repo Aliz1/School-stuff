@@ -32,6 +32,7 @@ public class PanelCenter extends JPanel
 
         area = new JTextArea();
         east = new PanelCenterEast(controller);
+        //east.setPreferredSize(new Dimension(240,height));
         setAutoscrolls(true);
         scroll = new JScrollPane(area);
 

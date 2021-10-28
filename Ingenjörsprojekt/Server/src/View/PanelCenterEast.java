@@ -88,7 +88,7 @@ public class PanelCenterEast extends JPanel
         OnlineListModel.clear();
         for (Nodes s: nodes) {
 
-            OnlineListModel.addElement(s.getMac());
+            OnlineListModel.addElement(s);
         }
 
         tfonlineMK.setModel(OnlineListModel);
@@ -104,7 +104,7 @@ public class PanelCenterEast extends JPanel
 
         for (Nodes s: nodes){
 
-            OfflineListModel.addElement(s.getMac() + "");
+            OfflineListModel.addElement(s);
         }
         tfofflineMK.setModel(OfflineListModel);
         tfofflineMK.repaint();

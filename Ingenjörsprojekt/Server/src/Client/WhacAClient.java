@@ -29,7 +29,7 @@ public class WhacAClient {
         
         try (Socket clientsSocket = new Socket(hostname,port); PrintWriter writer = new PrintWriter(new OutputStreamWriter(clientsSocket.getOutputStream())); )
         {
-            writer.println(mac + "//" + 10);
+            writer.println(mac + "//" + 10 + "/1000");
             writer.flush();
             
         } catch (UnknownHostException ex) {
